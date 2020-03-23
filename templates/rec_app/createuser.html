@@ -1,0 +1,15 @@
+{% extends "rec_app/base.html" %}
+
+{% block content %}
+        <form action="{% url 'auth' %}" method="POST">
+            {% csrf_token %}
+            <h2 align = Center>Sign Up</h2>
+            <p> <br><br></p>
+            <p align = Center><input type="text" class="span3" placeholder="Name" name="name" id="search" autofocus /> </p>
+            <p align = Center><input type="password" class="span3" placeholder="Password" name="pwd" id="search" autofocus /> </p>
+            <p align = Center><input type="password" class="span3" placeholder="Password again" name="pwd1" id="search" autofocus /> </p>
+             <input type="hidden" name="create" value="create">
+            <p align = Center><button type="submit" class="btn-custom">Register</button></p>
+        </form>  
+
+{% endblock content %}
