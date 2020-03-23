@@ -47,7 +47,7 @@
     border-radius: 6px;
 }
 
-.navbar-search .search-query, body, p, textarea, code, pre {
+.navbar-search .search-query, body, p, textarea, code, pre, input, button, select, textarea {
     font-family: 'Poppins', sans-serif;
 }
 

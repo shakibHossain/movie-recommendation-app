@@ -23,6 +23,7 @@ import math
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import WordPunctTokenizer
+from django.db.models import Q
 
 tknzr = WordPunctTokenizer()
 stoplist = stopwords.words('english')
@@ -39,7 +40,6 @@ def algo_loglikelihood(request):
     context = {}
     global recmethod
     recmethod = 'loglikelihood'
-    print 'loglikelihoodsuccess!!!'
     movies_recs(request)
     return render(request,'rec_app/recommendations.html', context)
 
@@ -47,7 +47,6 @@ def algo_userbased(request):
     context = {}
     global recmethod
     recmethod = 'cf_userbased'
-    print 'cf_userbasedsuccess!!!'
     return render(request,'rec_app/recommendations.html', context)
 
 def PreprocessTfidf(texts,stoplist=[],stem=False):
@@ -235,6 +234,48 @@ def rate_movie(request):
     context["movies"] = zip(movies,moviesindxs)
     context["rates"] = [1,2,3,4,5]
     return render(request,'rec_app/query_results.html',context)
+
+def movies_ratings(request):
+    userprofile = None
+    print 'view_ratings-uuuu:',request.user.is_superuser
+    if request.user.is_superuser:
+        return render(
+            'rec_app/superusersignin.html',{})
+    elif request.user.is_authenticated():
+        userprofile = UserProfile.objects.get(user=request.user)
+    else:
+        return render(request,'rec_app/pleasesignin.html', {})
+
+    ratedmovies=userprofile.ratedmovies.all()
+    print 'rated:',ratedmovies,'--',[r.movieindx for r in ratedmovies]
+    context = {}
+    if len(ratedmovies)<nminimumrates:
+        context['nrates'] = len(ratedmovies)
+        context['nminimumrates']=nminimumrates
+        return render(request,'rec_app/underminimum.html', context)
+    
+    ratedmoviescount=userprofile.ratedmovies.count()
+    # print "ratedmoviescount", ratedmoviescount
+
+    # print "arrayratedmoviesindxs", np.array(userprofile.arrayratedmoviesindxs)
+    # print "ratearray", userprofile.array
+
+    mr = MovieRated.objects.filter(Q(user=userprofile))
+    rates = []
+    
+    for j in xrange(len((mr))):
+        print "testtest", j
+        rates.append(mr[j].value)
+
+    print "Rates-", rates
+    movies = list(np.array(ratedmovies))
+    context = {}
+    
+    moviesindxs = list(np.random.randint(low = 10, high = 100, size = ratedmoviescount))
+    # moviesindxs = [1,2,3,4,5,6,7,8,9,10]
+    context["movies"] = zip(movies,moviesindxs,rates)
+
+    return render(request,'rec_app/ratings.html', context)
         
 def movies_recs(request):
     
@@ -288,7 +329,6 @@ def movies_recs(request):
     # moviesindxs = list(np.random.rand(numrecs))
     # moviesindxs = [1,2,3,4,5]
     moviesindxs = [1,2,3,4,5,6,7,8,9,10]
-    print "here45", moviesindxs
     context["movies"] = zip(movies,moviesindxs)
     context["recmethod"] = recmethod
 

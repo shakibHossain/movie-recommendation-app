@@ -1,10 +1,10 @@
 {% extends "rec_app/base.html" %}
 
 {% block content %}
-<h2 align = Center>Movie Search Results for Keyword(s) - {{ search_term }}</h2><br>
+<h2 align = Center>Ratings</h2><br>
 
 <section id="gridSystem">
-{% for movie,movieindx in movies %}
+{% for movie,movieindx,rate in movies %}
 	<div class="row">
 		<div class="span2">
         	<div class="well">
@@ -13,18 +13,14 @@
         </div>
         <div class="span8">
         	<div class="well">
-        		<p><strong>Movie Title : </strong><span id="title{{movieindx}}"></span><br></p>
+        		<p>Movie Title : <span id="title{{movieindx}}"></span><strong> (You rated - {{ rate }})</strong><br></p>
 				<label>Release Date : <span id="released{{movieindx}}"></span> (<span id="country{{movieindx}}"></span>)</label>
             	<label>Rated : <span id="rated{{movieindx}}"></span> &nbsp|&nbsp Runtime : <span id="runtime{{movieindx}}"></span> &nbsp|&nbsp Genre : <span id="genre{{movieindx}}"></span></label>
             	<label>Actors : <span id="actors{{movieindx}}"></span></label>
             	<label>Director : <span id="director{{movieindx}}"></span></label>
             	<label>Plot : <span id="plot{{movieindx}}"></span></label>
             	<label>IMDB Rating : <span id="imdbrating{{movieindx}}"></span></label>
-				<strong>Rate : </strong>
-				{% for vote in rates %}
-			    	<a href="{% url 'rate_movie'  %}?vote={{vote}}&movies={{movies}}&movie={{movie}}&movieindx={{movieindx}}" method="GET"> {{vote}} </a>
-				{% endfor %}
-          	</div>
+			</div>
         </div>
 
 		{% block javascript %}
@@ -35,12 +31,13 @@
 			  	var movie_title_with_trailing_whitespace = movie_title_with_year.split("("); 
 			  	var movie_title_final = movie_title_with_trailing_whitespace[0].trim();
 			  	url = 'http://www.omdbapi.com/?apikey=d6793999&t='+movie_title_final+'';
+			  	// console.log("here3", url);
 			  	if(movie_title_final != undefined && movie_title_final != "") {
 			  		fetch(url)
 						.then(response => response.json())
 					  	.then(function (data) {
 					  			// console.log(data.Year);
-					  			// document.write("<span>data.Year</span><br>")
+					  			// console.log("movieindx", movieindx);
 					  			$('#title{{movieindx}}').html(data.Title);
 					  			$('#year{{movieindx}}').html(data.Year);
 					  			$('#country{{movieindx}}').html(data.Country);

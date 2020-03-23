@@ -23,4 +23,5 @@ urlpatterns += [
     url(r'^users-list/',UsersList.as_view(),name='users-list'),
     url(r'^algo_loglikelihood/',rec_app.views.algo_loglikelihood,name='algo_loglikelihood'),
     url(r'^algo_userbased/',rec_app.views.algo_userbased,name='algo_userbased'),
+    url(r'^movies_ratings/',rec_app.views.movies_ratings,name='movies_ratings'),
 ]
