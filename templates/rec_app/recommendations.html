@@ -3,6 +3,28 @@
 {% block content %}
 <h2 align = Center>Recommendations</h2>
 
+<form action="{% url 'algo_loglikelihood' %}" method="POST">
+	<button id="submit" type='submit'>Loglikelihood</button>
+</form>
+<form action="{% url 'algo_userbased' %}" method="POST">
+	<button id="submit" type='submit'>User based</button>
+</form>
+<script>
+$(function(){
+     $('form').on('submit', function(e){
+         e.preventDefault();
+         console.log("here");
+         $.ajax({
+             url: $(this).attr('action'),
+             method: $(this).attr('method'),
+             success: function(data){ location.reload(true); }
+         });
+     });
+});
+</script>
+
+<h3 align = Center>Recommendation algorithm - {{ recmethod }}</h3><br>
+
 <section id="gridSystem">
 {% for movie,movieindx in movies %}
 	<div class="row">
@@ -27,7 +49,7 @@
 			<script src="/static/js/jquery.js"></script>
 		  	<script>
 			  	var movie_title_with_year = "{{ movie }}";
-			  	console.log("here2", movie_title_with_year);
+			  	// console.log("here2", movie_title_with_year);
 			  	var movie_title_with_trailing_whitespace = movie_title_with_year.split("("); 
 			  	var movie_title_final = movie_title_with_trailing_whitespace[0].trim();
 			  	url = 'http://www.omdbapi.com/?apikey=d6793999&t='+movie_title_final+'';
@@ -35,7 +57,7 @@
 			  		fetch(url)
 						.then(response => response.json())
 					  	.then(function (data) {
-					  			console.log(data.Year);
+					  			// console.log(data.Year);
 					  			// console.log("movieindx", movieindx);
 					  			$('#title{{movieindx}}').html(data.Title);
 					  			$('#year{{movieindx}}').html(data.Year);

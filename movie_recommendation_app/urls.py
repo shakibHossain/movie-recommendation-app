@@ -20,5 +20,7 @@ urlpatterns += [
     url(r'^rate_movie/',rate_movie,name='rate_movie'),
     url(r'^movies-recs/',movies_recs,name='movies_recs'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^users-list/',UsersList.as_view(),name='users-list')
+    url(r'^users-list/',UsersList.as_view(),name='users-list'),
+    url(r'^algo_loglikelihood/',rec_app.views.algo_loglikelihood,name='algo_loglikelihood'),
+    url(r'^algo_userbased/',rec_app.views.algo_userbased,name='algo_userbased'),
 ]

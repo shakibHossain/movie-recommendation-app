@@ -35,6 +35,20 @@ nminimumrates=5
 numrecs=10
 recmethod = 'cf_userbased'
 
+def algo_loglikelihood(request):
+    context = {}
+    global recmethod
+    recmethod = 'loglikelihood'
+    print 'loglikelihoodsuccess!!!'
+    movies_recs(request)
+    return render(request,'rec_app/recommendations.html', context)
+
+def algo_userbased(request):
+    context = {}
+    global recmethod
+    recmethod = 'cf_userbased'
+    print 'cf_userbasedsuccess!!!'
+    return render(request,'rec_app/recommendations.html', context)
 
 def PreprocessTfidf(texts,stoplist=[],stem=False):
     newtexts = []
@@ -276,8 +290,12 @@ def movies_recs(request):
     moviesindxs = [1,2,3,4,5,6,7,8,9,10]
     print "here45", moviesindxs
     context["movies"] = zip(movies,moviesindxs)
+    context["recmethod"] = recmethod
 
     return render(request,'rec_app/recommendations.html', context)
+
+
+
 
 from scipy.stats import pearsonr
 from scipy.spatial.distance import cosine 
@@ -315,7 +333,7 @@ def CF_userbased(u_vec,K,data):
         elif rating<1:
             return 1.
         return rating 
-        
+
     #add similarity col
     data = data.astype(float)
     nrows = len(data)
