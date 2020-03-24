@@ -1,12 +1,12 @@
 {% extends "rec_app/base.html" %}
 
 {% block content %}
-        <form action="{% url 'auth' %}" method="POST">
+        <form action="{% url 'auth' %}" method="POST" onsubmit="validateForm()">
             {% csrf_token %}
             <h2 align = Center>Sign In </h2>
             <p> <br><br></p>
-            <p align = Center><input type="text" class="span3" placeholder="Name" name="name" id="search" autofocus /> </p>
-            <p align = Center><input type="password" class="span3" placeholder="Password" name="pwd" id="search" autofocus /> </p>
+            <p align = Center><input type="text" class="span3" placeholder="Name" name="name" id="search" autofocus required/> </p>
+            <p align = Center><input type="password" class="span3" placeholder="Password" name="pwd" id="search" autofocus required/> </p>
             <p align = Center><button type="submit" class="btn-custom">Sign in</button></p>
         </form>  
 

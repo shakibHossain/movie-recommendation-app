@@ -4,7 +4,7 @@
         <h2 align = Center style="margin-top: -80px;">Search for movies</h2><br>
         <form action="{% url 'home' %}" method="POST" class="search-form">
             {% csrf_token %}
-            <input type="search" placeholder="Enter Keywords" name="data" id="search"/>
+            <input type="search" placeholder="Enter Keywords" name="data" id="search" required/>
             {# <button type="submit" class="btn btn-primary btn-large pull-center">Search</button> #}
             <div class="third-wrap">
 	            <button class="btn-search" type="submit">

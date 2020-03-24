@@ -1,7 +1,7 @@
 {% extends "rec_app/base.html" %}
 
 {% block content %}
-<h2 align = Center>Your Rated Movies</h2><br>
+<h2 align = Center>Your Rated Movies - (Count - {{ ratedmoviescount }})</h2><br>
 
 <section id="gridSystem">
 {% for movie,movieindx,rate in movies %}

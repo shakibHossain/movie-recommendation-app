@@ -64,7 +64,7 @@
 		                <form class="navbar-search pull-left" action="{% url 'home' %}" method="POST">
 		                  {% csrf_token %}
 		                   <div style="overflow: hidden; padding-right: .5em;">
-		                     <input type="text" name="data" style="width: 70%;" />
+		                     <input type="text" name="data" style="width: 70%;" required />
 		                     <input type="submit" name="search" value="Search" size="30" style="float: right" class="btn-custom" />
 		                    </div>
 		                </form>

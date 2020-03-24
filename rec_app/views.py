@@ -159,6 +159,7 @@ def auth(request):
             return render(request,'rec_app/createuser.html', context)
     elif request.method == 'POST':
         post_data = request.POST
+        
         name = post_data.get('name', None)
         pwd = post_data.get('pwd', None)
         pwd1 = post_data.get('pwd1', None)
@@ -274,6 +275,7 @@ def movies_ratings(request):
     moviesindxs = list(np.random.randint(low = 10, high = 100, size = ratedmoviescount))
     # moviesindxs = [1,2,3,4,5,6,7,8,9,10]
     context["movies"] = zip(movies,moviesindxs,rates)
+    context["ratedmoviescount"] = ratedmoviescount
 
     return render(request,'rec_app/ratings.html', context)
         
